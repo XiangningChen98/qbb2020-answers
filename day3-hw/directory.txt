@@ -1,0 +1,8 @@
+total 1569192
+-rw-r--r--  1 xiangning  staff  182276780  3 Sep 10:55 BDGP6.Ensembl.81.gtf
+-rw-r--r--  1 xiangning  staff       8602  3 Sep 10:54 K27me3.bed
+-rw-r--r--  1 xiangning  staff      75948  3 Sep 10:55 K4me3.bed
+-rw-r--r--  1 xiangning  staff       5846  3 Sep 10:55 K9me3.bed
+-rw-r--r--  1 xiangning  staff  616564462  1 Sep 04:02 SRR072893.bam
+-rw-r--r--  1 xiangning  staff     239600  3 Sep 11:02 SRR072893.bam.bai
+-rw-r--r--  1 xiangning  staff          0  3 Sep 11:03 directory.txt
