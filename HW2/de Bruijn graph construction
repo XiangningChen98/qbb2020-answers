@@ -1,0 +1,25 @@
+digraph unix {
+	node [color=lightblue2 style=filled]
+	size="12,12"
+	TTC -> TCT
+	TCT -> CTT
+	TTG -> TGA
+	TGA -> GAT
+	TCA -> CAT
+	TTC -> TCA
+	CAT -> ATT
+	TTT -> TTA
+	TTA -> TAT
+	ATT -> TTA
+	CTT -> TTA
+	TTT -> TTG
+	ATT -> TTT
+	TTT -> TTC
+	CTT -> TTT
+	TAT -> ATT
+	ATT -> TTG
+	CTT -> TTG
+	ATT -> TTC
+	GAT -> ATT
+	CTT -> TTC
+}
