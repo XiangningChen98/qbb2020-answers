@@ -1,0 +1,27 @@
+Q1.
+plink --vcf BYxRM_segs_saccer3.bam.simplified.vcf \
+  --recodeA \
+  --out genotype\
+  --allow-extra-chr
+
+Q3.
+bash pca.sh
+#######pca.sh########################3
+plink \
+  --vcf BYxRM_segs_saccer3.bam.simplified.vcf\
+  --pca \
+  --mind \
+  --allow-extra-chr
+
+bash assoc.sh
+#######assoc.sh########################3
+
+plink \
+  --vcf BYxRM_segs_saccer3.bam.simplified.vcf\
+  --pheno BYxRM_PhenoData_encode.txt \
+  --assoc \
+  --allow-no-sex \
+  --allow-extra-chr\
+  --all-pheno\
+  --covar plink.eigenvec \
+  --covar-number 1-10
