@@ -1,0 +1,4 @@
+Step2
+cat week4_query.fa seqdump.fa > query_and_blast.fa
+transeq query_and_blast.fa trans_seq.fa
+mafft trans_seq.fa > alignment.fa
