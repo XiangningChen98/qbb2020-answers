@@ -1,0 +1,95 @@
+HW5
+
+#####
+Mapping reads
+#####
+bowtie2-build bowtie_index/chr19.fa bowtie_index/chr19
+
+for sample in input_ER4 CTCF_G1E input_G1E CTCF_ER4
+do
+  bowtie2 -x bowtie_index/chr19 -U ${sample}.fastq -S ${sample}.sam -p 6
+  samtools view -bSo ${sample}.bam ${sample}.sam
+  samtools sort ${sample}.bam -o ${sample}.sorted.bam
+  samtools index ${sample}.sorted.bam
+done
+
+#notes:
+These are paired end files.
+input_ER4.fasta is the control of CTCF_ER4.fasta
+input_G1E.fasta is the control of CTCF_G1E.fasta
+
+
+
+######
+Calling peaks
+######
+macs2 callpeak -t alignment/CTCF_ER4.bam -c alignment/input_ER4.bam --format=BAM --name=ER4 --gsize=61420004 --tsize=26
+macs2 callpeak -t alignment/CTCF_G1E.bam -c alignment/input_G1E.bam --format=BAM --name=G1E --gsize=61420004 --tsize=26
+
+
+#####
+Differential binding
+#####
+bedtools intersect -v -a ER4_peaks.narrowPeak -b G1E_peaks.narrowPeak > ER4_gained.bed
+bedtools intersect -v -a G1E_peaks.narrowPeak -b ER4_peaks.narrowPeak > ER4_lost.bed
+
+
+
+#####
+Feature overlapping
+#####
+bedtools intersect -wa -wb -a Mus_musculus.GRCm38.94_features.bed -b ER4_gained.bed  > ER4_gained_feature.bed
+bedtools intersect -wa -wb -a Mus_musculus.GRCm38.94_features.bed -b ER4_lost.bed  > ER4_lost_feature.bed
+
+cut -f 4 ER4_gained_feature.bed| sort |uniq -c > ER4_gained_feature_count.txt
+cut -f 4 ER4_lost_feature.bed| sort |uniq -c > ER4_lost_feature_count.txt
+
+#answers:
+For CTCF binding sites gained after differentiation:
+22 exon
+66 intron
+15 promoter
+
+For CTCF binding sites lost after differentiation:
+5 exon
+36 intron
+2 promoter
+
+
+#####
+Plot
+#####
+bedtools intersect -wa -wb -a Mus_musculus.GRCm38.94_features.bed  -b ER4_peaks.narrowPeak > ER4_feature.bed
+bedtools intersect -wa -wb -a Mus_musculus.GRCm38.94_features.bed  -b G1E_peaks.narrowPeak > G1E_feature.bed
+cut -f 4 ER4_feature.bed| sort |uniq -c > ER4_feature_count.txt
+cut -f 4 G1E_feature.bed| sort |uniq -c > G1E_feature_count.txt
+
+wc -l ER4_gained_feature.bed 
+#output:
+103 ER4_gained_feature.bed
+
+wc -l ER4_lost_feature.bed 
+#output:
+43 ER4_lost_feature.bed
+
+
+
+#####
+Part 2: Motif discovery
+#####
+Data
+#####
+sort -k 8 -n ~/qbb2020-answers/HW5/peaks/ER4_peaks.narrowPeak | head -n 100 > meme_input.narrowPeak
+bedtools getfasta -fi ~/qbb2020-answers/HW5/bowtie_index/chr19.fa  -bed meme_input.narrowPeak > ER4_top100.fa
+
+#####
+motif finding
+#####
+1.
+meme-chip -meme-maxw 20 ER4_top100.fa
+
+2.
+tomtom ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/meme.txt ~/qbb2020-answers/HW5/motif/motif_databases/JASPAR/JASPAR_CORE_2016.meme
+
+3.
+epstopdf --outfile logo1.pdf ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/logo1.eps
