@@ -79,7 +79,7 @@ Part 2: Motif discovery
 #####
 Data
 #####
-sort -k 8 -n ~/qbb2020-answers/HW5/peaks/ER4_peaks.narrowPeak | head -n 100 > meme_input.narrowPeak
+sort -r -k 8 -n ~/qbb2020-answers/HW5/peaks/ER4_peaks.narrowPeak | head -n 100 > meme_input.narrowPeak
 bedtools getfasta -fi ~/qbb2020-answers/HW5/bowtie_index/chr19.fa  -bed meme_input.narrowPeak > ER4_top100.fa
 
 #####
@@ -93,3 +93,6 @@ tomtom ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/meme.txt ~/qbb2020-answ
 
 3.
 epstopdf --outfile logo1.pdf ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/logo1.eps
+epstopdf --outfile logo2.pdf ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/logo2.eps
+epstopdf --outfile logo3.pdf ~/qbb2020-answers/HW5/motif/memechip_out/meme_out/logo3.eps
+
