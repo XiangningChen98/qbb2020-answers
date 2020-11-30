@@ -1,0 +1,13 @@
+HW 9
+
+#Loading in the data
+hifive fends -L /Users/xiangning/qbb2020-answers/HW9/3DGenomeData/genome/mm9.len --binned 100000 -g mm9 genome_partition
+
+hifive hic-data -X 3DGenomeData/data/WT_100kb/raw_\*.mat genome_partition_step1 hicdata
+
+hifive hic-project --min-interactions 25 --num-bin 25 --min-binsize 100000 hicdata project_step3
+
+hifive hic-normalize express -f 25 -w cis project_step3
+
+#Compartment analysis
+bedtools intersect -wb -a /Users/xiangning/qbb2020-answers/HW9/hic_comp.bed -b /Users/xiangning/qbb2020-answers/HW9/3DGenomeData/data/WT_fpkm.bed > gene_compartment_intersect.bed
